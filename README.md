@@ -1,5 +1,5 @@
-# CarND-Traffic-Sign-Classifier-Project
-In this project, I will use what I've learned about deep neural networks and convolutional neural networks to classify traffic signs. Specifically, train a model to classify traffic signs from the German Traffic Sign Dataset.
+# 98,9 % Validation Accuracy CarND-Traffic-Sign-Classifier-Project
+In this project, I use what I've learned about deep neural networks and convolutional neural networks in Udacity's Traffic sign classification project which is part of their Self-driving Car Nano Degree. Specifically, train a model to classify traffic signs from the German Traffic Sign Dataset.
 
 **Build a Traffic Sign Recognition Project**
 
@@ -33,7 +33,7 @@ The goals / steps of this project are the following:
 
 #### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
 
-I achieved a validation set accuracy of 98,9 % and sest set accuracy of 97,9 % with this [project code](https://github.com/autonomobil/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier_v2.ipynb)!
+I achieved a validation set accuracy of 98,9 % and test set accuracy of 97,9 % with this [project code (.ipynb-file)](https://github.com/autonomobil/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb), html can be found [here](https://github.com/autonomobil/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.html)!
 
 ### Data Set Summary & Exploration
 
@@ -50,7 +50,7 @@ signs data set:
 
 #### 2. Include an exploratory visualization of the dataset.
 
-First there is a bar chart showing how the classes are distributed, as you can see some classes are very underrepresented. This can lead to problems, because then the ConvNet will be biased towards classes with a lot of images. If I give a hundred stop signs, a yield sign, then two hundred more stop signs, it is pretty predictable in which direction the CNN will lean.
+First there is a bar chart showing how the classes are distributed, as you can see some classes are very underrepresented. This can lead to problems, because then the ConvNet will be biased towards classes with a lot of images. If I give a hundred yield signs, a stop sign, then two hundred more yield signs, it is pretty predictable in which direction the CNN will lean.
 
 ![image1]
 
@@ -66,7 +66,9 @@ Futhermore here are some exemplary representation of random classes and images (
 
 
 1. First I normalized all images to a scale of -1, 1 by getting the maximum and minimum of each color channel of each image, calculating the range with the Max&Mins and then apply following formula :
-`image[:,:, color] = (image[:,:,color] - (val_range/2 + min_val)) / (val_range/2)``
+``image[:,:, color] = (image[:,:,color] - (val_range/2 + min_val)) / (val_range/2)``
+
+    After normalization I'm getting close to 0-centered data, which is essential for good machine earning.
 
     ``Mean of raw data:  82.677589037``
 
@@ -94,7 +96,7 @@ Futhermore here are some exemplary representation of random classes and images (
     - 2 => move randomly in range of -3, 3 pixel
     - 4 => warpfactor
 
-I wrote the function ```augmen_img```, which takes an image and the ``aug_ranges `` as input and generates a new image. After a lot of  trial&error I decided to use ``getAffineTransform & warpAffine`` for 3 of the 5 operations, this resulted in increased generation   time, but the results are very good (no pixel artefacts, etc.). To save time I concatenate the additional images to X_train and y_train and dumped it as a new p.file. New dimensions are: ``X_train shape: (46740, 32, 32, 3)``.
+I wrote the function ```augmen_img```, which takes an image and the ``aug_ranges `` as input and generates a new image. After a lot of  trial&error I decided to use ``getAffineTransform & warpAffine`` from the library cv2 for 3 of the 5 operations, this resulted in increased generation   time, but the results are very good (no pixel artefacts, etc.). To save time I concatenate the additional images to X_train and y_train and dumped it as a new p.file. New dimensions are: ``X_train shape: (46740, 32, 32, 3)``. The .p-file can be found [here(augmented to minimum of 810 images in each class)](https://mega.nz/#!JdlWUASD) and [here (minimum  400  images)](https://mega.nz/#!pQ1CFbBC)
 
 Here are some examples of an original image and an augmented image:
 
@@ -143,8 +145,7 @@ My final model consisted of the following layers:
 |	DROPOUT				                |												                      |	|
 | Fully connected               | outputs 43       							              |	classes output|
 
-As you can see, the information from the lower levels is also transferred to the level of fully connected layers.
-By doing this, the fully connected layers have access also to low level features, which is very good for simple shapes like traffic signs.
+As you can see, the information from the lower levels is also transferred to the level of fully connected layers. By doing this, the fully connected layers have access also to low level features, which is very good for simple shapes like traffic signs.
 
 #### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
@@ -159,7 +160,8 @@ Different hyperparameters were tested, these ones seem to be quite good:
 
 The learning is lowered each epoch according to the formula, which looks something like below:
 ``learning_rate_epoch = start_learning_rate * np.exp(-i*(1/(EPOCHS*0.03))) + final_learning_rate``
-![image8]
+
+EXAMPLE: ![image8]
 
 A L2 LossRegularizer was used to punish big weights. Method: All weights from all layers were summed up and added to the loss operation.
 - regularize_factor = 0.00005
@@ -193,7 +195,7 @@ Iterative steps (Hyperparameter tuning in between: lowering learning rate, incre
     - dropout is important for avoiding overfitting
     - L2 weight regularization is also used to avoid overfitting
 
-After getting validation accuracy > 98%, I checked every epoch if the current validation accuracy is greater than 0.98 and if so, save the current CNN. With this strategy I got the best CNN ``CNN_final_0.98889`` and used this for the next task.
+After getting validation accuracy > 98%, I checked every epoch if the current validation accuracy is greater than 0.98 and if so, save the current CNN. With this strategy I got the best CNN ``CNN_final_0.98889`` and used this for the next task. This CNN can be found [here](https://mega.nz/#F!xE8AxLwK). Training took about 30-45 without plotting, my workhorses is a Geforce GTX 1060 6GB.
 
 ### Test a Model on New Images
 
@@ -227,7 +229,7 @@ The model was able to correctly guess 12 of the 12 traffic signs, which gives an
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-All images can be classified pretty well.
+All images can be classified correctly.
 
 Here are two examples for good classifications, on the first image the CNN is 100% sure and class is correct! This is an excellent result. For the other image the CNN is a bit unsure, but this is just a very small uncertainty.
 
