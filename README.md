@@ -1,4 +1,4 @@
-# 98,9 % Validation Accuracy CarND-Traffic-Sign-Classifier-Project
+# 98,9 % Validation Accuracy - CarND-Traffic-Sign-Classifier-Project
 In this project, I use what I've learned about deep neural networks and convolutional neural networks in Udacity's Traffic sign classification project which is part of their Self-driving Car Nano Degree. Specifically, train a model to classify traffic signs from the German Traffic Sign Dataset.
 
 **Build a Traffic Sign Recognition Project**
