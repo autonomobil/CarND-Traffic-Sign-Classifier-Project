@@ -33,7 +33,7 @@ The goals / steps of this project are the following:
 
 #### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
 
-I achieved a validation set accuracy of 98,9 % and test set accuracy of 97,9 % with this [project code (.ipynb-file)](https://github.com/autonomobil/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb), html can be found [here](https://github.com/autonomobil/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.html)!
+I achieved a validation set accuracy of 98,9 % and test set accuracy of 97,9 % with this [project code (.ipynb-file)](https://github.com/autonomobil/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb), html can be found [here](https://github.com/autonomobil/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.html)! In this Notebook I set the augmentation minimum to 200 for time saving reason, but you can comment out the manual overide of the variable ``mean_no_of_samples = 200`` or set it to a value of desire. You could also load the pre normalized and augmented data, more of this topic below. 
 
 ### Data Set Summary & Exploration
 
